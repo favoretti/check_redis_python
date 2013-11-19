@@ -39,7 +39,7 @@ def check_stat_value(_redis, db, stat, crit, warn):
         return critical("{0} is not a valid metric".format(stat))
 
     if not isinstance(value, float):
-        return critical("{0} returned a non-integer value: {1}".format(stat, value))
+        return critical("{0} returned non numerical value: {1}".format(stat, value))
 
     if value >= float(crit):
         return critical("{0} exceeds critical level ({1}): {2}".format(stat, crit, value))
