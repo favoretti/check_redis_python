@@ -38,12 +38,12 @@ def check_stat_value(_redis, db, stat, crit, warn):
     if not value:
         return critical("{0} is not a valid metric".format(stat))
 
-    if not isinstance(value, int):
-        return critical("{0} returned a non-integer value: {1}".format(stat, value))
+    if not isinstance(value, float):
+        return critical("{0} returned non numerical value: {1}".format(stat, value))
 
-    if value >= int(crit):
+    if value >= float(crit):
         return critical("{0} exceeds critical level ({1}): {2}".format(stat, crit, value))
-    elif value >= int(warn):
+    elif value >= float(warn):
         return warning("{0} exceeds warning level ({1}): {2}".format(stat, warn, value))
     else:
         return okay("{0} is ok. {0}={1}".format(stat, value))
@@ -51,8 +51,8 @@ def check_stat_value(_redis, db, stat, crit, warn):
 def main(args):
 
     parser = argparse.ArgumentParser(description="Redis monitor")
-    parser.add_argument('--warn', '-w', metavar='NUM_WARN', type=int, required=True, help='Warning level')
-    parser.add_argument('--crit', '-c', metavar='NUM_CRIT', type=int, required=True, help='Critical level')
+    parser.add_argument('--warn', '-w', metavar='NUM_WARN', type=float, required=True, help='Warning level')
+    parser.add_argument('--crit', '-c', metavar='NUM_CRIT', type=float, required=True, help='Critical level')
     parser.add_argument('--host', '-H', metavar='HOST', default='localhost', help='Hostname')
     parser.add_argument('--port', '-p', metavar='PORT', type=int, default=6379, help='Port')
     parser.add_argument('--password', '-P', metavar='PASSWORD', help='Password')
